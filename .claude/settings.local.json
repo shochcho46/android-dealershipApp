@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(./gradlew.bat compileDebugKotlin --console=plain)",
+      "PowerShell(.\\\\gradlew.bat :app:compileDebugKotlin --console=plain 2>&1 | Select-Object -Last 150)",
+      "Bash(find /d -maxdepth 4 -iname \"*jbr*\")",
+      "Bash(find /d -maxdepth 3 -iname \"*android studio*\")",
+      "Bash(find /d -maxdepth 6 -iname \"javac.exe\")",
+      "Skill(run)",
+      "Read(//tmp/**)",
+      "Bash(awk NR==225,NR==260 *)",
+      "Bash(unzip -l \"/c/Users/hp/.gradle/caches/9.5.0/transforms/60ac7fcfb1c3af6cff869d2594b85315/transformed/material-icons-extended-release/jars/classes.jar\")",
+      "Bash(unzip -l \"/c/Users/hp/.gradle/caches/9.5.0/transforms/67528ffd40ae43d2912352680f0ea85b/transformed/material-icons-core-release/jars/classes.jar\")",
+      "Bash(javap -classpath /c/Users/hp/.gradle/caches/9.5.0/transforms/aac1d508953c91a3ad1c63bae9038683/transformed/room-runtime/jars/classes.jar 'androidx.room.RoomDatabase$Builder')",
+      "Bash(javap -version)",
+      "Bash(kill %1)",
+      "Bash(jobs)",
+      "mcp__ide__getDiagnostics"
+    ]
+  }
+}
