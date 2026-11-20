@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.dealernest.core.update.UpdateDialogHost
 import com.example.dealernest.presentation.navigation.DealerNestNavHost
 import com.example.dealernest.ui.theme.DealerNestTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,7 @@ class MainActivity : Hilt_MainActivity() {
         setContent {
             DealerNestTheme {
                 DealerNestNavHost()
+                UpdateDialogHost()
             }
         }
     }

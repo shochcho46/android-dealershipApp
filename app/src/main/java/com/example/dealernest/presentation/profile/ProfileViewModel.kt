@@ -26,6 +26,9 @@ class ProfileViewModel @Inject constructor(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
+    // Re-fetch on open so a stale/incorrectly-parsed saved profile (e.g. wrong status) self-heals.
+    init { refresh() }
+
     fun refresh() {
         viewModelScope.launch {
             _isRefreshing.value = true

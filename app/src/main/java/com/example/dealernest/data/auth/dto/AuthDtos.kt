@@ -3,6 +3,8 @@ package com.example.dealernest.data.auth.dto
 import com.example.dealernest.domain.model.AdminProfile
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
 data class LoginRequestDto(
@@ -49,7 +51,9 @@ data class AdminProfileDto(
     val phone: String? = null,
     // Confirmed via live testing to be a JSON boolean here (unlike Vendor/Product's `status`,
     // which are ints per the API docs' examples) - see .claude/docs/api-contract.md.
-    val status: Boolean = true,
+    // Parsed tolerantly (true/false, 1/0, "1"/"active") - see isActiveFlag. A strict Boolean
+    // plus trusting status_text made active users render as "Inactive".
+    val status: JsonElement? = null,
     @SerialName("status_text") val statusText: String? = null,
     val picture: PictureDto? = null,
     val roles: List<RoleDto> = emptyList(),
@@ -63,10 +67,21 @@ fun AdminProfileDto.toDomain(): AdminProfile = AdminProfile(
     name = name ?: "Admin",
     email = email,
     phone = phone,
-    status = status,
-    statusText = statusText ?: if (status) "Active" else "Inactive",
+    status = isActiveFlag(status, statusText),
+    statusText = if (isActiveFlag(status, statusText)) "Active" else "Inactive",
     pictureUrl = picture?.url,
     roles = roles.mapNotNull { it.name },
     permissions = permissions.mapNotNull { it.name },
     createdAt = createdAt,
 )
+
+/** Accepts true/false, 1/0, "1"/"0", "active"/"inactive"; falls back to status_text, then active. */
+private fun isActiveFlag(status: JsonElement?, statusText: String?): Boolean {
+    val raw = (status as? JsonPrimitive)?.content?.trim()?.lowercase()
+        ?: statusText?.trim()?.lowercase()
+    return when (raw) {
+        "true", "1", "active" -> true
+        "false", "0", "inactive" -> false
+        else -> true
+    }
+}

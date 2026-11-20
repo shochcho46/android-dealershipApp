@@ -12,6 +12,8 @@
          credentials (.claude/docs/roadmap.md Phase 6); this readies the permission for when
          FCM is wired in. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Lets the in-app updater hand a downloaded APK to the system installer (core/update). -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
